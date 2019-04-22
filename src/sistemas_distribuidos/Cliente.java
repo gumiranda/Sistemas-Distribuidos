@@ -32,16 +32,10 @@ public class Cliente implements Runnable{
         new Thread(imprimir).start();
         
         //Lendo mensagem do teclado e mandando para o servidor
-        System.out.println("Digite o comando:");
-        Scanner teclado = new Scanner(System.in);
-        PrintStream saida = new PrintStream(cliente.getOutputStream());
-        while(teclado.hasNextLine()){
-            saida.println(teclado.nextLine());
-        }
         
-        saida.close();
-        teclado.close();
-        cliente.close();
+        LerComandos comandos = new LerComandos(cliente);
+        new Thread(comandos).start();
+        //cliente.close();
         
     }
     

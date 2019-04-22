@@ -19,20 +19,19 @@ import java.util.logging.Logger;
 
 public class ReceberMensagem implements Runnable{
     private Socket cliente;
-    private PrintStream cliente_retorno;
     private Servidor servidor;
     
     
-    public ReceberMensagem(Socket cliente,Servidor servidor,PrintStream cliente_retorno){
+    public ReceberMensagem(Socket cliente,Servidor servidor){
         this.cliente = cliente;
         this.servidor = servidor;
-        this.cliente_retorno = cliente_retorno;
     }
     
     public void run(){
         Scanner s;
         try {
             s = new Scanner(this.cliente.getInputStream());
+            PrintStream cliente_retorno = new PrintStream(this.cliente.getOutputStream());
             while(s.hasNextLine()){
                 cliente_retorno.println(servidor.processaComando(s.nextLine()));
             }

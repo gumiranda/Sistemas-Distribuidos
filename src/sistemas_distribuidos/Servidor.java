@@ -14,7 +14,7 @@ import java.io.OutputStream;
 
 public class Servidor {
     private int porta;
-    private ArrayList<PrintStream> clientes;
+    private ArrayList<Socket> clientes;
     
      public static void main(String[] args) throws IOException{
         new Servidor(1234).executa();
@@ -23,7 +23,7 @@ public class Servidor {
     
     public Servidor(int porta){
         this.porta = porta;
-        this.clientes = new ArrayList<PrintStream>();
+        this.clientes = new ArrayList<Socket>();
     }
     
     public void executa() throws IOException{
@@ -31,17 +31,15 @@ public class Servidor {
         while(true){
             Socket cliente = servidor.accept();
             System.out.println("Nova conexão com o cliente " +cliente.getInetAddress().getHostAddress());
-            
-            PrintStream ps = new PrintStream(cliente.getOutputStream());
-            this.clientes.add(ps);
-            ReceberMensagem msg = new ReceberMensagem(cliente,this,ps);
+            this.clientes.add(cliente);
+            ReceberMensagem msg = new ReceberMensagem(cliente,this);
             new Thread(msg).start();
         }
     }
     
     public String processaComando(String comando){
         //Validar comando ->fazer filas ...
-        return "Sucesso";
+        return "SERVIDOR "+comando;
     }
     
     

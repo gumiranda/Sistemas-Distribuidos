@@ -19,7 +19,7 @@ public class ImprimeMensagem implements Runnable{
         this.servidor = servidor;
     }
     
-    //Atende comando do cliente e repassa para o servidor
+    //Imprime mensagem ao receber do servidor
     public void run(){
         Scanner s = new Scanner(this.servidor);
         while(s.hasNextLine()){
