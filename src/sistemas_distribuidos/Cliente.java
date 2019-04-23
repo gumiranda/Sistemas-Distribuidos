@@ -14,7 +14,7 @@ import java.io.PrintStream;
 import java.io.InputStream;
 
 
-public class Cliente implements Runnable{
+public class Cliente{
     private int porta;
     private String host;
     
@@ -39,5 +39,5 @@ public class Cliente implements Runnable{
         
     }
     
-    public void run(){}
+
 }
