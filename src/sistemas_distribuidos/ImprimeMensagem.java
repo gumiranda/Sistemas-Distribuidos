@@ -23,8 +23,8 @@ public class ImprimeMensagem implements Runnable{
     public void run(){
         Scanner s = new Scanner(this.servidor);
         while(s.hasNextLine()){
-            System.out.println("IMPRIMINDO");
             System.out.println(s.nextLine());
         }
+        
     }
 }

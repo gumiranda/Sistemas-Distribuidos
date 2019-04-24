@@ -20,7 +20,7 @@ public class Servidor {
     private Fila F3;
     private Fila F1;
     private int quantidade_threads = 15;
-    
+    private BaseDados Banco;
     
      public static void main(String[] args) throws IOException{
         new Servidor(1234).executa();
@@ -33,6 +33,7 @@ public class Servidor {
         this.F1 = new Fila();
         this.F2 = new Fila();
         this.F3 = new Fila();
+        this.Banco = new BaseDados();
     }
     
     public void executa() throws IOException{
@@ -45,6 +46,10 @@ public class Servidor {
         //Para copiar de F1 para F2 e para F3
         CopiarLista copy = new CopiarLista(this.F1,this.F2,this.F3);
         new Thread(copy).start();
+        
+        //Thread para aplicar operacoes ao Banco de Dados
+        AplicarAoBanco bancoDados = new AplicarAoBanco(this.Banco,this.F3,this);
+        new Thread(bancoDados).start();
      
         while(true){
             Socket cliente = servidor.accept();
@@ -55,9 +60,9 @@ public class Servidor {
         }
     }
     
-    public String processaComando(String comando){
+    public String MandarMensagem(String mensagem){
         //Validar comando ->fazer filas ...
-        return "SERVIDOR "+comando;
+        return mensagem;
     }
     
     

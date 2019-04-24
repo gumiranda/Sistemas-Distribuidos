@@ -29,6 +29,7 @@ public class LerComandos implements Runnable {
         
         //if(comandos[0] == "select" || comandos[0] == "read" || comandos[0] == "delete"){
             saida.println(comando);
+        
         //}else{
             // System.out.println("Comando Invalido: "+aux);
         //}

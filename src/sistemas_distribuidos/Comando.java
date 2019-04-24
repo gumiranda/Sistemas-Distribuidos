@@ -21,6 +21,14 @@ public class Comando {
         this.comando = comando;
         
     }
+    public synchronized Socket getCliente(){
+        return this.cliente;
+    }
+    
+    public synchronized String getComando(){
+        return this.comando;
+    }
+    
     
     public void imprimir(){
         System.out.println("COMANDO: "+this.comando);

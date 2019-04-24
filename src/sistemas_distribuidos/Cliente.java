@@ -24,6 +24,7 @@ public class Cliente{
         this.host = host;
     }
      public static void main(String[] args) throws IOException{
+         /*
         String nome_arquivo = args[0];
         String ip;
         int porta;
@@ -33,8 +34,9 @@ public class Cliente{
         String esp[] = linha.split(" ");
         ip = esp[0];
         porta =  Integer.valueOf(esp[1]);
-         new Cliente(ip,porta).executa();
-       
+        new Cliente(ip,porta).executa();
+*/
+         new Cliente("127.0.0.1", 1234).executa();
     
     }
        
