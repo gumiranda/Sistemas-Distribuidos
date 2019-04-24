@@ -47,6 +47,11 @@ public class Servidor {
         CopiarLista copy = new CopiarLista(this.F1,this.F2,this.F3);
         new Thread(copy).start();
         
+        //Criando Log
+        Log log = new Log(this.F2);  
+        new Thread(log).start();
+        
+        
         //Thread para aplicar operacoes ao Banco de Dados
         AplicarAoBanco bancoDados = new AplicarAoBanco(this.Banco,this.F3,this);
         new Thread(bancoDados).start();
