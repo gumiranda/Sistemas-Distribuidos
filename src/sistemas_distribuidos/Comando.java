@@ -21,4 +21,8 @@ public class Comando {
         this.comando = comando;
         
     }
+    
+    public void imprimir(){
+        System.out.println("COMANDO: "+this.comando);
+    }
 }

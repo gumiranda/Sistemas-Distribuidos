@@ -36,8 +36,16 @@ public class Servidor {
     }
     
     public void executa() throws IOException{
+        
         ServerSocket servidor = new ServerSocket(this.porta);
+        
+        //Devinindo POOL de threads
         ExecutorService thds = Executors.newFixedThreadPool(this.quantidade_threads);
+        
+        //Para copiar de F1 para F2 e para F3
+        CopiarLista copy = new CopiarLista(this.F1,this.F2,this.F3);
+        new Thread(copy).start();
+     
         while(true){
             Socket cliente = servidor.accept();
             System.out.println("Nova conexão com o cliente " +cliente.getInetAddress().getHostAddress());

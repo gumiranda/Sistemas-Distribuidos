@@ -33,9 +33,13 @@ public class ReceberMensagem implements Runnable{
         Scanner s;
         try {
             s = new Scanner(this.cliente.getInputStream());
-            PrintStream cliente_retorno = new PrintStream(this.cliente.getOutputStream());
+            //PrintStream cliente_retorno = new PrintStream(this.cliente.getOutputStream());
+            String comando;
             while(s.hasNextLine()){
-                cliente_retorno.println(servidor.processaComando(s.nextLine()));
+                comando = s.nextLine();
+                Comando c = new Comando(this.cliente,comando);
+                F1.put(c);
+                //cliente_retorno.println(servidor.processaComando(s.nextLine()));
             }
             s.close();
         } catch (IOException ex) {
