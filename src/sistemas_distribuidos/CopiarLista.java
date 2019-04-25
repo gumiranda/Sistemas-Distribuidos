@@ -34,13 +34,6 @@ public class CopiarLista implements Runnable{
             F1.copiaArrayComandos(aux, aux1);
             F2.putArray(aux);
             F3.putArray(aux1);
-
-            System.out.println("F1:");
-            F1.imprimir();
-            System.out.println("F2:");
-            F2.imprimir();
-            System.out.println("F3:");
-            F3.imprimir();
         }
     }
     

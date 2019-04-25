@@ -31,17 +31,45 @@ public class AplicarAoBanco implements Runnable{
     
     public void run(){
         while(true){
-            System.out.println("AGuardando F3");
             Comando c = F3.getFirst();
-            System.out.println("F3 com dados");
             Socket cliente = c.getCliente();
             String comando = c.getComando();
-            
             String comandos[] = comando.split(" ");
-            BigInteger chave = new BigInteger(comandos[1]);
-            byte[] dados = comandos[2].getBytes();
-            String retorno = this.banco.add(chave, dados);
+            byte[] dados = null;
+            String retorno = null;
             
+            BigInteger chave = new BigInteger(comandos[1]);
+            
+            if(comandos.length >=3 ){
+                dados = comandos[2].getBytes();
+            }
+            
+            byte[] retorno_select = null;
+            switch(comandos[0].toLowerCase()){
+                case "insert":
+                    retorno = this.banco.add(chave, dados);
+                    break;
+                case "delete":
+                    retorno = this.banco.Deletar(chave);
+                    break;
+                case "select":
+                    if(this.banco.verifica(chave)){
+                         retorno_select = this.banco.get(chave);
+                          try {
+                            retorno = new String(retorno_select, "UTF-8");
+                            
+                        } catch (UnsupportedEncodingException ex) {
+                            Logger.getLogger(AplicarAoBanco.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }else{
+                        retorno = "Chave nao existe";
+                    }
+                    break;
+                case "update":
+                    retorno = this.banco.update(chave, dados);
+                    break;
+             
+            }
             try {
   
                 PrintStream cliente_retorno = new PrintStream(cliente.getOutputStream());

@@ -19,7 +19,9 @@ public class BaseDados{
     
     
     public synchronized String update(BigInteger chave,byte[] dado){
-        
+        if(!verifica(chave)){
+            return "Chave nao existe";
+        }
         try {
             this.Banco.put(chave, dado);
             return "UPDATE Com Sucesso";
@@ -43,13 +45,13 @@ public class BaseDados{
         
     }
     
-    public synchronized String Deletar(BigInteger chave,byte[] dado){
+    public synchronized String Deletar(BigInteger chave){
         if(!verifica(chave)){
             return "Chave nao existe";
         }
             
         try {
-            this.Banco.remove(chave, dado);
+            this.Banco.remove(chave);
             return "Deletado com Sucesso";
         }catch(Exception e){
             return "Delete FALHOU";
@@ -62,7 +64,6 @@ public class BaseDados{
     }
     
     public synchronized byte[] get(BigInteger chave){
-       
         byte[] dados = this.Banco.get(chave);
         return dados;
         

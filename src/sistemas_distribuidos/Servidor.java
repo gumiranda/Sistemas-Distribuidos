@@ -60,8 +60,9 @@ public class Servidor {
         }
     }
     
-    public String MandarMensagem(String mensagem){
-        //Validar comando ->fazer filas ...
+    public synchronized String MandarMensagem(String mensagem){
+        //Mandar mensagem para os clientes
+        System.out.println(mensagem);
         return mensagem;
     }
     

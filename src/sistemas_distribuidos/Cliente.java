@@ -39,7 +39,7 @@ public class Cliente{
          new Cliente("127.0.0.1", 1234).executa();
     
     }
-       
+    
     
     public void executa() throws IOException{
         Socket cliente = new Socket(this.host,this.porta);
