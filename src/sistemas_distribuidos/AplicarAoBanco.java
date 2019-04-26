@@ -28,6 +28,26 @@ public class AplicarAoBanco implements Runnable{
         this.servidor = s;
     }
     
+    public BigInteger getChave(String chave){   
+        BigInteger chavei = new BigInteger(chave);
+        return chavei;
+    }
+    
+    public byte[] getDados(String comandos[]){
+        String d= null;
+ 
+                for(int i=2;i<comandos.length;i++){
+                    if(i == 2){
+                        d = comandos[i];
+                    }else{
+                    d = d +" " +comandos[i];
+                    }
+                
+                }
+                
+        return d.getBytes();
+    }
+    
     
     public void run(){
         while(true){
@@ -38,20 +58,12 @@ public class AplicarAoBanco implements Runnable{
             byte[] dados = null;
             String retorno = null;
             
-            BigInteger chave = new BigInteger(comandos[1]);
             
-            if(comandos.length >=3 ){
-                String d= null;
-                for(int i=2;i<comandos.length;i++){
-                    if(i == 2){
-                        d = comandos[i];
-                    }else{
-                    d = d +" " +comandos[i];
-                    }
-                
-                }
-                dados = d.getBytes();
-            }
+            BigInteger chave = getChave(comandos[1]);
+
+            if(comandos.length >=3 )
+                dados = getDados(comandos);
+ 
             byte[] retorno_select = null;
             switch(comandos[0].toLowerCase()){
                 case "insert":
