@@ -16,25 +16,56 @@ import java.util.logging.Logger;
 
 public class ImprimeMensagem implements Runnable{
     private InputStream servidor;
+    ComunicaThread com;
+    private boolean exit = false;
        
-    public ImprimeMensagem(InputStream servidor){
+    public ImprimeMensagem(InputStream servidor,ComunicaThread com){
         this.servidor = servidor;
+        this.com = com;
     }
     
     //Imprime mensagem ao receber do servidor
     public void run(){
-        Scanner s = new Scanner(this.servidor);
-        
-        while(s.hasNextLine()){
-            try {
-                Thread.currentThread().sleep(5000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ImprimeMensagem.class.getName()).log(Level.SEVERE, null, ex);
+        while(!exit){
+            Scanner s = new Scanner(this.servidor);
+            boolean verifica;
+            long start;
+            long elapsed;
+
+            while(true){
+                verifica = false;
+                this.com.tentaExecutar();
+                start = System.currentTimeMillis();
+
+                //Esperar por 5 segundos
+                while(true){
+                    if(!verifica){
+                        elapsed = System.currentTimeMillis() - start;
+                        if(elapsed > 5000)
+                            break;
+                    }else{
+                        break;
+                    }
+                    while(s.hasNextLine()){
+                        verifica = true;
+                        System.out.println("AGUARDANDO RESPOSTA");
+                        System.out.println(s.nextLine());
+                        this.com.FinalLeitura();
+
+                    }
+                }
+                if(!verifica){
+                    System.out.println("Tempo de reposta excedido, conexao perdida");
+                    this.stop();
+                    break;
+                }
             }
-            System.out.println(s.nextLine());
-            
         }
         
-        
     }
+    
+       public void stop() 
+    { 
+        this.exit = true; 
+    } 
 }

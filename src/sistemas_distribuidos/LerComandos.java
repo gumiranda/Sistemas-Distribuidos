@@ -15,10 +15,23 @@ import java.util.ArrayList;
  */
 public class LerComandos implements Runnable {
     private Socket cliente;
+    private ComunicaThread com;
+    private boolean exit = false;
 
+    public synchronized boolean verificaNumero(String str2){
+        double valor;
+        
+        try {
+	    valor = (Double.parseDouble(str2));
+            return true;
+	} catch (NumberFormatException e) {	  
+            return false;
+	}
+    }
     
-    public LerComandos(Socket cliente){
+    public LerComandos(Socket cliente,ComunicaThread com){
         this.cliente = cliente;
+        this.com = com;
     }
     
     public synchronized void validarComandos(String comando,PrintStream saida){
@@ -34,6 +47,11 @@ public class LerComandos implements Runnable {
                         System.out.println("Quantidade de comandos invalido: Minimo de  2");
                         flag = false;
                         
+                    }else{
+                        if(!this.verificaNumero(comandos[1])){
+                            System.out.println("Tipo de chave Invalida");
+                            flag = false;
+                        }
                     }
                     break;
                 case "insert":
@@ -41,6 +59,11 @@ public class LerComandos implements Runnable {
                         System.out.println("Quantidade de comandos invalido: Minimo de  3");
                         flag = false;
                         
+                    }else{
+                        if(!this.verificaNumero(comandos[1])){
+                            System.out.println("Tipo de chave Invalida");
+                            flag = false;
+                        }
                     }
                     break;
                 case "delete":
@@ -48,6 +71,11 @@ public class LerComandos implements Runnable {
                         System.out.println("Quantidade de comandos invalido: Minimo de  2");
                         flag = false;
                         
+                    }else{
+                        if(!this.verificaNumero(comandos[1])){
+                            System.out.println("Tipo de chave Invalida");
+                            flag = false;
+                        }
                     }
                     break;
                     
@@ -56,11 +84,17 @@ public class LerComandos implements Runnable {
                         System.out.println("Quantidade de comandos invalido: Minimo de  3");
                         flag = false;
                         
+                    }else{
+                        if(!this.verificaNumero(comandos[1])){
+                            System.out.println("Tipo de chave Invalida");
+                            flag = false;
+                        }
                     }
                     break;
                 
             }
             if(flag){
+               this.com.indicaFinal();
                saida.println(comando);
             }
             else{
@@ -79,7 +113,7 @@ public class LerComandos implements Runnable {
         System.out.println("Comandos Diponiveis:");
         System.out.println("INSERT,DELETE,READ e DELETE");
         
-        while(true){
+        while(!this.exit){
             
             Scanner teclado = new Scanner(System.in);
             PrintStream saida;
@@ -98,5 +132,10 @@ public class LerComandos implements Runnable {
         }
 
     }
+    
+    public void stop() 
+    { 
+        this.exit = true; 
+    } 
     
 }

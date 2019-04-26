@@ -19,11 +19,14 @@ import java.io.FileReader;
 public class Cliente{
     private int porta;
     private String host;
+    private ComunicaThread com = new ComunicaThread();
+    
+    
     public Cliente(String host,int porta){
         this.porta = porta;
         this.host = host;
     }
-     public static void main(String[] args) throws IOException{
+     public static void main(String[] args) throws IOException, InterruptedException{
          /*
         String nome_arquivo = args[0];
         String ip;
@@ -41,18 +44,29 @@ public class Cliente{
     }
     
     
-    public void executa() throws IOException{
-        Socket cliente = new Socket(this.host,this.porta);
-        ImprimeMensagem imprimir = new ImprimeMensagem(cliente.getInputStream());
-        new Thread(imprimir).start();
-        
+    public void executa() throws IOException, InterruptedException{
+        Socket cliente = null;
+        try{
+          cliente = new Socket(this.host,this.porta);
+        }catch(Exception e){
+            System.out.println("Erro ao tentar conectar no servidor,verifica o ip e portas");
+        }
+        ImprimeMensagem imprimir = new ImprimeMensagem(cliente.getInputStream(),this.com);
+        Thread im = new Thread(imprimir);
+        im.start();
         //Lendo mensagem do teclado e mandando para o servidor
         
-        LerComandos comandos = new LerComandos(cliente);
-        new Thread(comandos).start();
+        LerComandos comandos = new LerComandos(cliente,this.com);
+        Thread c = new Thread(comandos);
+        c.start();
+        
+        im.join();
+        c.stop();
         //cliente.close();
         
     }
+
+ 
     
 
 }
