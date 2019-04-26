@@ -26,8 +26,8 @@ public class ImprimeMensagem implements Runnable{
     
     //Imprime mensagem ao receber do servidor
     public void run(){
+        Scanner s = new Scanner(this.servidor);
         while(!exit){
-            Scanner s = new Scanner(this.servidor);
             boolean verifica;
             long start;
             long elapsed;
@@ -64,7 +64,7 @@ public class ImprimeMensagem implements Runnable{
         
     }
     
-       public void stop() 
+    public void stop() 
     { 
         this.exit = true; 
     } 

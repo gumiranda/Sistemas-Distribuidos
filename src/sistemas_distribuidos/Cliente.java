@@ -50,6 +50,7 @@ public class Cliente{
           cliente = new Socket(this.host,this.porta);
         }catch(Exception e){
             System.out.println("Erro ao tentar conectar no servidor,verifica o ip e portas");
+            System.exit(0);
         }
         ImprimeMensagem imprimir = new ImprimeMensagem(cliente.getInputStream(),this.com);
         Thread im = new Thread(imprimir);

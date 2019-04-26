@@ -12,8 +12,12 @@ package sistemas_distribuidos;
 import java.util.ArrayList;
 import java.net.ServerSocket;
 import java.io.IOException;
+import java.io.FileOutputStream;
 import java.net.Socket;
+import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.DataOutputStream;
+import java.io.DataInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.util.List;
@@ -26,7 +30,7 @@ public class Log implements Runnable{
     
     public Log(Fila F2){
        this.F2 = F2;
-       this.arquivo = new File("Log.txt");
+       this.arquivo = new File("Log.dat");
     }
     public void run(){
         while(true){
@@ -44,9 +48,10 @@ public class Log implements Runnable{
             FileWriter fw;
             try {
                 System.out.println("Começa a escrever no log");
-                fw = new FileWriter(this.arquivo, true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(comando);
+                FileOutputStream arq = new FileOutputStream(this.arquivo);
+                DataOutputStream gravarArq = new DataOutputStream(arq);
+                gravarArq.writeUTF(comando);
+                
             } catch (IOException ex) {
                 Logger.getLogger(Log.class.getName()).log(Level.SEVERE, null, ex);
             }
