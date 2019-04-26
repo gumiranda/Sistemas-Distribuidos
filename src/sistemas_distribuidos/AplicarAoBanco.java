@@ -41,9 +41,17 @@ public class AplicarAoBanco implements Runnable{
             BigInteger chave = new BigInteger(comandos[1]);
             
             if(comandos.length >=3 ){
-                dados = comandos[2].getBytes();
+                String d= null;
+                for(int i=2;i<comandos.length;i++){
+                    if(i == 2){
+                        d = comandos[i];
+                    }else{
+                    d = d +" " +comandos[i];
+                    }
+                
+                }
+                dados = d.getBytes();
             }
-            
             byte[] retorno_select = null;
             switch(comandos[0].toLowerCase()){
                 case "insert":
@@ -84,6 +92,16 @@ public class AplicarAoBanco implements Runnable{
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(AplicarAoBanco.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            //Tratamento para tentar evitar memoria Leak:
+            c = null;
+            cliente = null;
+            comando = null;
+            comandos = null;
+            dados = null;
+            retorno = null;
+            chave = null;
+            System.gc();
             
         }
     }

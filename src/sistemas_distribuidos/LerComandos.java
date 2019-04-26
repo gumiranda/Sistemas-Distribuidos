@@ -24,15 +24,53 @@ public class LerComandos implements Runnable {
     public synchronized void validarComandos(String comando,PrintStream saida){
         String aux;
         aux = comando.toLowerCase();
-        
+        boolean flag = true;
         String comandos[] = aux.split(" ");
         
-        //if(comandos[0] == "select" || comandos[0] == "read" || comandos[0] == "delete"){
-            saida.println(comando);
+        if(comandos[0].equals("select") || comandos[0].equals("insert") || comandos[0].equals("delete") || comandos[0].equals("update")){
+            switch(comandos[0]){
+                case "select":
+                    if(comandos.length < 2){
+                        System.out.println("Quantidade de comandos invalido: Minimo de  2");
+                        flag = false;
+                        
+                    }
+                    break;
+                case "insert":
+                    if(comandos.length < 3){
+                        System.out.println("Quantidade de comandos invalido: Minimo de  3");
+                        flag = false;
+                        
+                    }
+                    break;
+                case "delete":
+                    if(comandos.length < 2){
+                        System.out.println("Quantidade de comandos invalido: Minimo de  2");
+                        flag = false;
+                        
+                    }
+                    break;
+                    
+                case "update":
+                    if(comandos.length < 3){
+                        System.out.println("Quantidade de comandos invalido: Minimo de  3");
+                        flag = false;
+                        
+                    }
+                    break;
+                
+            }
+            if(flag){
+               saida.println(comando);
+            }
+            else{
+                System.out.println("Comando nao executado tente novamente");
+            }
+            
         
-        //}else{
-            // System.out.println("Comando Invalido: "+aux);
-        //}
+        }else{
+            System.out.println("Comando Invalido: "+aux);
+        }
             
   
     }
