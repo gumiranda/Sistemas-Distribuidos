@@ -35,9 +35,7 @@ public class AplicarAoBanco implements Runnable{
      public String ProcessaComando(String comando){
             String comandos[] = comando.split(" ");
             byte[] dados = null;
-            String retorno = null;
-            
-            
+            String retorno = null;  
             BigInteger chave = this.banco.getChave(comandos[1]);
 
             if(comandos.length >=3 )
@@ -94,12 +92,14 @@ public class AplicarAoBanco implements Runnable{
                 
             }
             
+            /*
+            //IMprimindo Base de dados
             try {
                 this.banco.imprimir();
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(AplicarAoBanco.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            */
             //Tratamento para tentar evitar memoria Leak:
             c = null;
             cliente = null;

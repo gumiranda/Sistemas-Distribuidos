@@ -43,7 +43,6 @@ public class Log implements Runnable{
 
             FileWriter fw;
             try {
-                System.out.println("Começa a escrever no log");
                 FileWriter arq = new FileWriter(this.arquivo,true);
                 PrintWriter gravarArq = new PrintWriter(arq);
                 

@@ -48,7 +48,6 @@ public class ImprimeMensagem implements Runnable{
                     }
                     while(s.hasNextLine()){
                         verifica = true;
-                        System.out.println("AGUARDANDO RESPOSTA");
                         System.out.println(s.nextLine());
                         this.com.FinalLeitura();
 

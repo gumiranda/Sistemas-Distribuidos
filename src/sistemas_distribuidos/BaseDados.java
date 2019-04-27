@@ -6,6 +6,7 @@ package sistemas_distribuidos;
  */
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,15 +25,18 @@ public class BaseDados{
     }
     
     public void RecuperardoLog(String log) throws FileNotFoundException, IOException{
-        FileReader arq = new FileReader(log);
-        BufferedReader lerArq = new BufferedReader(arq);
-        
-        String linha = "";
-        byte[] dados = null;
-        while (( linha = lerArq.readLine() ) != null) {
-            this.processa.ProcessaComando(linha);
-        }
-        
+       
+        File arquivo = new File(log);
+        if(arquivo.exists()){
+            FileReader arq = new FileReader(log);
+            BufferedReader lerArq = new BufferedReader(arq);
+
+            String linha = "";
+            byte[] dados = null;
+            while (( linha = lerArq.readLine() ) != null) {
+                this.processa.ProcessaComando(linha);
+            }
+        }    
     }
     
     

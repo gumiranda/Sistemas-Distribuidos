@@ -28,8 +28,6 @@ public class CopiarLista implements Runnable{
         while(true){
             ArrayList<Comando> aux; //Copiar para F2
             ArrayList<Comando> aux1 = new ArrayList<Comando>(); //Copiar para F3
-            
-            System.out.println("DENTRO DO COPIAR");
             aux = F1.getAll();
             F1.copiaArrayComandos(aux, aux1);
             F2.putArray(aux);

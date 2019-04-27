@@ -33,7 +33,6 @@ public class Fila {
         ArrayList<Comando> aux = new ArrayList<Comando>();
         while(!this.possui_dados){
             try{
-                System.out.println("Aguardando dados");
                 wait();
             }catch(InterruptedException e){}
         }
