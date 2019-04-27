@@ -9,18 +9,13 @@ package sistemas_distribuidos;
  *
  * @author alexa
  */
-import java.util.ArrayList;
-import java.net.ServerSocket;
+
 import java.io.IOException;
 import java.io.FileOutputStream;
-import java.net.Socket;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.DataOutputStream;
-import java.io.DataInputStream;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.util.List;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,12 +25,13 @@ public class Log implements Runnable{
     
     public Log(Fila F2){
        this.F2 = F2;
-       this.arquivo = new File("Log.dat");
+       this.arquivo = new File("Log.txt");
     }
     public void run(){
         while(true){
             Comando c = F2.getFirst();
             String comando = c.getComando();
+            String comandos[] = comando.split(" ");
             
             if(!this.arquivo.exists()){
                try {
@@ -48,9 +44,13 @@ public class Log implements Runnable{
             FileWriter fw;
             try {
                 System.out.println("Começa a escrever no log");
-                FileOutputStream arq = new FileOutputStream(this.arquivo);
-                DataOutputStream gravarArq = new DataOutputStream(arq);
-                gravarArq.writeUTF(comando);
+                FileWriter arq = new FileWriter(this.arquivo,true);
+                PrintWriter gravarArq = new PrintWriter(arq);
+                
+                if(!comandos[0].toLowerCase().equals("select"))
+                    gravarArq.println(comando);
+                gravarArq.flush();
+                arq.close();
                 
             } catch (IOException ex) {
                 Logger.getLogger(Log.class.getName()).log(Level.SEVERE, null, ex);

@@ -15,6 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.FileInputStream;
+import java.io.DataInputStream;
+import java.io.FileNotFoundException;
+
 
 public class AplicarAoBanco implements Runnable{
     private BaseDados banco;
@@ -27,42 +31,17 @@ public class AplicarAoBanco implements Runnable{
         this.F3 = F3;
         this.servidor = s;
     }
-    
-    public BigInteger getChave(String chave){   
-        BigInteger chavei = new BigInteger(chave);
-        return chavei;
-    }
-    
-    public byte[] getDados(String comandos[]){
-        String d= null;
- 
-                for(int i=2;i<comandos.length;i++){
-                    if(i == 2){
-                        d = comandos[i];
-                    }else{
-                    d = d +" " +comandos[i];
-                    }
-                
-                }
-                
-        return d.getBytes();
-    }
-    
-    
-    public void run(){
-        while(true){
-            Comando c = F3.getFirst();
-            Socket cliente = c.getCliente();
-            String comando = c.getComando();
+   
+     public String ProcessaComando(String comando){
             String comandos[] = comando.split(" ");
             byte[] dados = null;
             String retorno = null;
             
             
-            BigInteger chave = getChave(comandos[1]);
+            BigInteger chave = this.banco.getChave(comandos[1]);
 
             if(comandos.length >=3 )
-                dados = getDados(comandos);
+                dados = this.banco.getDados(comandos);
  
             byte[] retorno_select = null;
             switch(comandos[0].toLowerCase()){
@@ -90,6 +69,22 @@ public class AplicarAoBanco implements Runnable{
                     break;
              
             }
+            //Tratamento para tentar evitar memoria Leak:
+            comando = null;
+            comandos = null;
+            dados = null;
+            chave = null;
+            System.gc();
+            
+            return retorno;
+    }
+     
+    public void run(){
+        while(true){
+            Comando c = F3.getFirst();
+            Socket cliente = c.getCliente();
+            String comando = c.getComando();
+            String retorno = this.ProcessaComando(comando);
             try {
   
                 PrintStream cliente_retorno = new PrintStream(cliente.getOutputStream());
@@ -109,10 +104,7 @@ public class AplicarAoBanco implements Runnable{
             c = null;
             cliente = null;
             comando = null;
-            comandos = null;
-            dados = null;
             retorno = null;
-            chave = null;
             System.gc();
             
         }

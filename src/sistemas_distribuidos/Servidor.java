@@ -27,13 +27,14 @@ public class Servidor {
        
     }
          
-    public Servidor(int porta){
+    public Servidor(int porta) throws IOException{
         this.porta = porta;
         this.clientes = new ArrayList<Socket>();
         this.F1 = new Fila();
         this.F2 = new Fila();
         this.F3 = new Fila();
         this.Banco = new BaseDados();
+        this.Banco.RecuperardoLog("Log.txt");
     }
     
     public void executa() throws IOException{
