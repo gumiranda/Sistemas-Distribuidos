@@ -48,13 +48,20 @@ public class Log implements Runnable{
                 
                 if(!comandos[0].toLowerCase().equals("select"))
                     gravarArq.println(comando);
+                
                 gravarArq.flush();
                 arq.close();
+                
+                
                 
             } catch (IOException ex) {
                 Logger.getLogger(Log.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+            c = null;
+            comando = null;
+            comandos = null;
+            System.gc();
             
         }
     }
