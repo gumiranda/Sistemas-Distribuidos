@@ -1,4 +1,4 @@
-package sistemas_distribuidos;
+package sistemas_distribuidos.Server;
 
 /**
  *
@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.net.ServerSocket;
 import java.io.IOException;
 import java.net.Socket;
+import java.io.File;
+import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.io.OutputStream;
 import java.util.concurrent.*;
@@ -23,7 +26,25 @@ public class Servidor {
     private BaseDados Banco;
     
      public static void main(String[] args) throws IOException{
-        new Servidor(1234).executa();
+        File arquivo = new File("Porta_e_host.txt");
+        if (arquivo.exists()) {
+            FileReader arq = new FileReader("Porta_e_host.txt");
+            BufferedReader lerArq = new BufferedReader(arq);
+            int porta = 0;
+            String linha = "";
+            while ((linha = lerArq.readLine()) != null) {
+                String[] porta_e_host = linha.split(" ");
+                String cliente_ou_servidor = porta_e_host[0];
+                if (cliente_ou_servidor.toUpperCase().equals("SERVIDOR")) {
+                    // new Cliente("127.0.0.1", 1234).executa();
+                    porta = Integer.parseInt(porta_e_host[1]);
+
+                }
+            }
+            new Servidor(porta).executa();
+
+        }
+        //new Servidor(1234).executa();
        
     }
          

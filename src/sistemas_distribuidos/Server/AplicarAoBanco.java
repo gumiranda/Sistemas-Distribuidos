@@ -1,13 +1,8 @@
-package sistemas_distribuidos;
+package sistemas_distribuidos.Server;
 
-import java.io.InputStream;
+
 import java.io.UnsupportedEncodingException;
 
-/**
- *
- * @author Natan Rodovalho
- * 
- */
 
 import java.net.Socket;
 import java.math.BigInteger;
@@ -18,6 +13,8 @@ import java.io.PrintStream;
 import java.io.FileInputStream;
 import java.io.DataInputStream;
 import java.io.FileNotFoundException;
+import sistemas_distribuidos.Server.Fila;
+import sistemas_distribuidos.Cliente.Comando;
 
 
 public class AplicarAoBanco implements Runnable{

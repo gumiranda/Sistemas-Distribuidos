@@ -1,4 +1,4 @@
-package sistemas_distribuidos;
+package sistemas_distribuidos.Cliente;
 
 
 import java.io.IOException;
@@ -9,10 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 
-/**
- *
- * @author Natan Rodovalho
- */
 public class LerComandos implements Runnable {
     private Socket cliente;
     private ComunicaThread com;

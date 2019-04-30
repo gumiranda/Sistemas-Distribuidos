@@ -1,10 +1,5 @@
+package sistemas_distribuidos.Cliente;
 
-package sistemas_distribuidos;
-
-/**
- *
- * @author Natan Rodovalho
- */
 import java.util.ArrayList;
 import java.net.ServerSocket;
 import java.io.IOException;

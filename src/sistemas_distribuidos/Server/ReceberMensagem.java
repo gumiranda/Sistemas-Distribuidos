@@ -1,11 +1,9 @@
 
-package sistemas_distribuidos;
+package sistemas_distribuidos.Server;
 
-/**
- *
- * @author Natan Rodovalho
- */
 
+
+import sistemas_distribuidos.Cliente.Comando;
 import  java.util.Scanner;
 import java.io.FileOutputStream;
 import java.io.IOException;

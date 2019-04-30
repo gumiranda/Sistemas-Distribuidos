@@ -1,9 +1,5 @@
-package sistemas_distribuidos;
+package sistemas_distribuidos.Server;
 
-/**
- *
- * @author Natan Rodovalho
- */
 
 import java.io.BufferedReader;
 import java.io.File;
