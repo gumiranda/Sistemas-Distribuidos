@@ -1,4 +1,4 @@
-package sistemas_distribuidos.Cliente;
+package sistemas_distribuidos.Controle;
 
 import java.util.ArrayList;
 import java.net.ServerSocket;

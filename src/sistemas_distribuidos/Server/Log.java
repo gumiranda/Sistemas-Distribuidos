@@ -4,7 +4,7 @@ package sistemas_distribuidos.Server;
 
 
 import java.io.IOException;
-import sistemas_distribuidos.Cliente.Comando;
+import sistemas_distribuidos.Controle.Comando;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.DataOutputStream;

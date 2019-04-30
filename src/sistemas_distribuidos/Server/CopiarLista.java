@@ -2,7 +2,7 @@
 package sistemas_distribuidos.Server;
 
 import java.util.ArrayList;
-import sistemas_distribuidos.Cliente.Comando;
+import sistemas_distribuidos.Controle.Comando;
 import java.util.List;
 
 public class CopiarLista implements Runnable{

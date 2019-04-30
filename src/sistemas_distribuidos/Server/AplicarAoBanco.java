@@ -14,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.DataInputStream;
 import java.io.FileNotFoundException;
 import sistemas_distribuidos.Server.Fila;
-import sistemas_distribuidos.Cliente.Comando;
+import sistemas_distribuidos.Controle.Comando;
 
 
 public class AplicarAoBanco implements Runnable{

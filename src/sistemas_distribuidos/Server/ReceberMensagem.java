@@ -3,7 +3,7 @@ package sistemas_distribuidos.Server;
 
 
 
-import sistemas_distribuidos.Cliente.Comando;
+import sistemas_distribuidos.Controle.Comando;
 import  java.util.Scanner;
 import java.io.FileOutputStream;
 import java.io.IOException;
