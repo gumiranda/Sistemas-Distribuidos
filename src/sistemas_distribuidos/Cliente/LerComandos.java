@@ -30,13 +30,16 @@ public class LerComandos implements Runnable {
         this.com = com;
     }
     
-    public synchronized void validarComandos(String comando,PrintStream saida){
+    
+    //Retorna false caso a thread tenha q parar ou false caso contrario
+    public synchronized  boolean validarComandos(String comando,PrintStream saida){
         String aux;
         aux = comando.toLowerCase();
         boolean flag = true;
+        boolean fi = false;
         String comandos[] = aux.split(" ");
         
-        if(comandos[0].equals("select") || comandos[0].equals("insert") || comandos[0].equals("delete") || comandos[0].equals("update")){
+        
             switch(comandos[0]){
                 case "select":
                     if(comandos.length < 2){
@@ -87,23 +90,34 @@ public class LerComandos implements Runnable {
                         }
                     }
                     break;
+                    
+                case "quit":
+                    System.out.println("Programa finalizado");
+                    this.com.Matar();
+                    this.com.indicaFinal();
+                    break;
+                    
+                default:
+                    flag = false;
+                    break;
                 
             }
             if(flag){
                this.com.indicaFinal();
                saida.println(comando);
+           
             }
             else{
+                System.out.println("Comando Invalido: "+aux);
                 System.out.println("Comando nao executado tente novamente");
+              
             }
+            return fi;
+    }
             
-        
-        }else{
-            System.out.println("Comando Invalido: "+aux);
-        }
             
   
-    }
+    
     
     public void run(){
         System.out.println("Comandos Diponiveis:");
@@ -113,17 +127,21 @@ public class LerComandos implements Runnable {
             
             Scanner teclado = new Scanner(System.in);
             PrintStream saida;
+             boolean verifica = false;
             try {
                 saida = new PrintStream(this.cliente.getOutputStream());
                 System.out.print("Digite o comando: ");
-                
+               
                 while(teclado.hasNextLine()){
                     
-                    validarComandos(teclado.nextLine(),saida);          
+                    verifica = validarComandos(teclado.nextLine(),saida); 
                 }
             } catch (IOException ex) {
                 Logger.getLogger(LerComandos.class.getName()).log(Level.SEVERE, null, ex);
             }
+              if(verifica){
+                 this.stop();
+              }
             
         }
 

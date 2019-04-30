@@ -1,4 +1,6 @@
-INSERT 45 NATAN
+insert 1 natan
+insert 3 quatro
+INSERT 1 NATAN
 INSERT 1 JOAO
-UPDATE 8 da
-UPDATE 1 NATAN
+UPDATE 1 MARCELO
+delete 1

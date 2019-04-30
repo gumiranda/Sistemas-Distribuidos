@@ -40,7 +40,7 @@ public class Log implements Runnable{
                 FileWriter arq = new FileWriter(this.arquivo,true);
                 PrintWriter gravarArq = new PrintWriter(arq);
                 
-                if(!comandos[0].toLowerCase().equals("select"))
+                if(!comandos[0].toLowerCase().equals("select") || !comandos[0].equals("quit"))
                     gravarArq.println(comando);
                 
                 gravarArq.flush();

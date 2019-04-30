@@ -19,32 +19,51 @@ public class ReceberMensagem implements Runnable{
     private Socket cliente;
     private Servidor servidor;
     private Fila F1;
+    private boolean exit = false;
+
     
     
     public ReceberMensagem(Socket cliente,Servidor servidor,Fila F1){
         this.cliente = cliente;
         this.servidor = servidor;
         this.F1 = F1;
+        
     }
     
     public void run(){
         Scanner s;
-        try {
-            s = new Scanner(this.cliente.getInputStream());
-            //PrintStream cliente_retorno = new PrintStream(this.cliente.getOutputStream());
-            String comando;
-            while(s.hasNextLine()){
-                comando = s.nextLine();
-                Comando c = new Comando(this.cliente,comando);
-                F1.put(c);
-                //cliente_retorno.println(servidor.processaComando(s.nextLine()));
+        while(!this.exit){
+           
+            try {
+                s = new Scanner(this.cliente.getInputStream());
+                //PrintStream cliente_retorno = new PrintStream(this.cliente.getOutputStream());
+                String comando;
+                while(s.hasNextLine()){
+                    comando = s.nextLine();
+                    Comando c = new Comando(this.cliente,comando);
+                    if(comando.equals("quit")){
+                        this.stop();
+                        break;
+                    }else{
+                        F1.put(c);
+                    }
+                    //cliente_retorno.println(servidor.processaComando(s.nextLine()));
+                }
+                s.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ReceberMensagem.class.getName()).log(Level.SEVERE, null, ex);
             }
-            s.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ReceberMensagem.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
       
     }
+    
+     public void stop() 
+  { 
+        this.exit = true; 
+  } 
 }
+
+
+    

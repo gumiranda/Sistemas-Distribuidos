@@ -31,6 +31,11 @@ public class ImprimeMensagem implements Runnable{
             while(true){
                 verifica = false;
                 this.com.tentaExecutar();
+                
+                if(this.com.morta){
+                    this.stop();
+                    break;
+                }
                 start = System.currentTimeMillis();
 
                 //Esperar por 5 segundos
