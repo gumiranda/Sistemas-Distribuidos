@@ -13,6 +13,8 @@ public class LerComandos implements Runnable {
     private Socket cliente;
     private ComunicaThread com;
     private boolean exit = false;
+    private boolean teste;
+    private String comando;
 
     public synchronized boolean verificaNumero(String str2){
         double valor;
@@ -25,9 +27,11 @@ public class LerComandos implements Runnable {
 	}
     }
     
-    public LerComandos(Socket cliente,ComunicaThread com){
+    public LerComandos(Socket cliente,ComunicaThread com,boolean teste,String comando){
         this.cliente = cliente;
         this.com = com;
+        this.teste = teste;
+        this.comando = comando;
     }
     
     
@@ -92,7 +96,7 @@ public class LerComandos implements Runnable {
                     break;
                     
                 case "quit":
-                    System.out.println("Programa finalizado");
+                    //System.out.println("Programa finalizado");
                     this.com.Matar();
                     this.com.indicaFinal();
                     break;
@@ -120,29 +124,44 @@ public class LerComandos implements Runnable {
     
     
     public void run(){
-        System.out.println("Comandos Diponiveis:");
-        System.out.println("INSERT,DELETE,READ e DELETE");
-        
+       if(!this.teste){
+            System.out.println("Comandos Diponiveis:");
+            System.out.println("INSERT,DELETE,READ e DELETE");
+       }else{
+            System.out.println("Cliente para teste");
+       }
         while(!this.exit){
-            
-            Scanner teclado = new Scanner(System.in);
             PrintStream saida;
-             boolean verifica = false;
-            try {
-                saida = new PrintStream(this.cliente.getOutputStream());
-                System.out.print("Digite o comando: ");
-               
-                while(teclado.hasNextLine()){
-                    
-                    verifica = validarComandos(teclado.nextLine(),saida); 
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(LerComandos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-              if(verifica){
-                 this.stop();
-              }
             
+            
+            if(this.teste){
+                try {
+                    saida = new PrintStream(this.cliente.getOutputStream());
+                    validarComandos(this.comando,saida);
+                    validarComandos("quit",saida);
+                } catch (IOException ex) {
+                    Logger.getLogger(LerComandos.class.getName()).log(Level.SEVERE, null, ex);
+                    
+                
+            }
+            }else{
+                Scanner teclado = new Scanner(System.in);
+                
+                 boolean verifica = false;
+                try {
+                    saida = new PrintStream(this.cliente.getOutputStream());
+                    System.out.print("Digite o comando: ");
+
+                    while(teclado.hasNextLine()){
+
+                       validarComandos(teclado.nextLine(),saida); 
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(LerComandos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+         
+            
+            }
         }
 
     }

@@ -9,17 +9,22 @@ import java.io.PrintStream;
 import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 
 public class Cliente{
     private int porta;
     private String host;
     private ComunicaThread com = new ComunicaThread();
+    private boolean teste;
+    private String comando; //Para testes
     
     
-    public Cliente(String host,int porta){
+    public Cliente(String host,int porta,boolean teste,String comando){
         this.porta = porta;
+        this.teste = teste;
         this.host = host;
+        this.comando = comando;
     }
      public static void main(String[] args) throws IOException, InterruptedException{
    
@@ -40,7 +45,7 @@ public class Cliente{
                 }
             }
             System.out.println(porta);
-            new Cliente(host, porta).executa();
+            new Cliente(host, porta,false,null).executa();
 
         }
     }
@@ -59,7 +64,7 @@ public class Cliente{
         im.start();
         //Lendo mensagem do teclado e mandando para o servidor
         
-        LerComandos comandos = new LerComandos(cliente,this.com);
+        LerComandos comandos = new LerComandos(cliente,this.com,this.teste,this.comando);
         Thread c = new Thread(comandos);
         c.start();
         

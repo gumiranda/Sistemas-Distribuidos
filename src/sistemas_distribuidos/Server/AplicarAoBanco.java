@@ -83,7 +83,7 @@ public class AplicarAoBanco implements Runnable{
             try {
   
                 PrintStream cliente_retorno = new PrintStream(cliente.getOutputStream());
-                cliente_retorno.println(servidor.MandarMensagem(retorno));
+                cliente_retorno.println(retorno);
          
             }catch(IOException ex) {
                 

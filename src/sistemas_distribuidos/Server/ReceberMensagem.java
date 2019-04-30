@@ -42,6 +42,8 @@ public class ReceberMensagem implements Runnable{
                     comando = s.nextLine();
                     Comando c = new Comando(this.cliente,comando);
                     if(comando.equals("quit")){
+                        PrintStream cliente_retorno = new PrintStream(cliente.getOutputStream());
+                        cliente_retorno.println("Quit Recebido");
                         this.stop();
                         break;
                     }else{
@@ -51,7 +53,9 @@ public class ReceberMensagem implements Runnable{
                 }
                 s.close();
             } catch (IOException ex) {
-                Logger.getLogger(ReceberMensagem.class.getName()).log(Level.SEVERE, null, ex);
+                this.stop();
+       
+                //Logger.getLogger(ReceberMensagem.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
