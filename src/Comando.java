@@ -1,5 +1,9 @@
-package sistemas_distribuidos.Controle;
 
+
+/**
+ *
+ * @author Natan Rodovalho
+ */
 import java.util.ArrayList;
 import java.net.ServerSocket;
 import java.io.IOException;

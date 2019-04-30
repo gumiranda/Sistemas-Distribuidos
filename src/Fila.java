@@ -1,9 +1,11 @@
 
-package sistemas_distribuidos.Server;
 
+/**
+ *
+ * @author Natan Rodovalho
+ */
 
 import java.util.ArrayList;
-import sistemas_distribuidos.Controle.Comando;
 import java.util.List;
 
 public class Fila {

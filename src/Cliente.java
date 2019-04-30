@@ -1,6 +1,10 @@
-package sistemas_distribuidos.Cliente;
 
-import java.io.File;
+/**
+ *
+ * @author Natan Rodovalho
+ */
+
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 import java.io.FileOutputStream;
@@ -8,26 +12,26 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.InputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
 
-
-public class Cliente{
+public class Cliente {
     private int porta;
     private String host;
     private ComunicaThread com = new ComunicaThread();
-    private boolean teste;
-    private String comando; //Para testes
-    
-    
-    public Cliente(String host,int porta,boolean teste,String comando){
+
+    public Cliente(String host, int porta) {
         this.porta = porta;
-        this.teste = teste;
         this.host = host;
-        this.comando = comando;
     }
-     public static void main(String[] args) throws IOException, InterruptedException{
-   
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        /*
+         * String nome_arquivo = args[0]; String ip; int porta; BufferedReader br = new
+         * BufferedReader(new FileReader(nome_arquivo)); String linha = br.readLine();
+         * br.close(); String esp[] = linha.split(" "); ip = esp[0]; porta =
+         * Integer.valueOf(esp[1]); new Cliente(ip,porta).executa();
+         */
         File arquivo = new File("Porta_e_host.txt");
         if (arquivo.exists()) {
             FileReader arq = new FileReader("Porta_e_host.txt");
@@ -45,36 +49,33 @@ public class Cliente{
                 }
             }
             System.out.println(porta);
-            new Cliente(host, porta,false,null).executa();
+            new Cliente(host, porta).executa();
 
         }
+
     }
-    
-    
-    public void executa() throws IOException, InterruptedException{
+
+    public void executa() throws IOException, InterruptedException {
         Socket cliente = null;
-        try{
-          cliente = new Socket(this.host,this.porta);
-        }catch(Exception e){
+        try {
+            cliente = new Socket(this.host, this.porta);
+        } catch (Exception e) {
             System.out.println("Erro ao tentar conectar no servidor,verifica o ip e portas");
             System.exit(0);
         }
-        ImprimeMensagem imprimir = new ImprimeMensagem(cliente.getInputStream(),this.com);
+        ImprimeMensagem imprimir = new ImprimeMensagem(cliente.getInputStream(), this.com);
         Thread im = new Thread(imprimir);
         im.start();
-        //Lendo mensagem do teclado e mandando para o servidor
-        
-        LerComandos comandos = new LerComandos(cliente,this.com,this.teste,this.comando);
+        // Lendo mensagem do teclado e mandando para o servidor
+
+        LerComandos comandos = new LerComandos(cliente, this.com);
         Thread c = new Thread(comandos);
         c.start();
-        
+
         im.join();
         c.stop();
-        //cliente.close();
-        
-    }
+        // cliente.close();
 
- 
-    
+    }
 
 }

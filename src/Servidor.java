@@ -1,4 +1,3 @@
-package sistemas_distribuidos.Server;
 
 /**
  *
@@ -7,11 +6,11 @@ package sistemas_distribuidos.Server;
 
 import java.util.ArrayList;
 import java.net.ServerSocket;
-import java.io.IOException;
-import java.net.Socket;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.BufferedReader;
+import java.io.IOException;
+import java.net.Socket;
 import java.io.PrintStream;
 import java.io.OutputStream;
 import java.util.concurrent.*;
@@ -24,8 +23,8 @@ public class Servidor {
     private Fila F1;
     private int quantidade_threads = 15;
     private BaseDados Banco;
-    
-     public static void main(String[] args) throws IOException{
+
+    public static void main(String[] args) throws IOException {
         File arquivo = new File("Porta_e_host.txt");
         if (arquivo.exists()) {
             FileReader arq = new FileReader("Porta_e_host.txt");
@@ -44,11 +43,10 @@ public class Servidor {
             new Servidor(porta).executa();
 
         }
-        //new Servidor(1234).executa();
-       
+
     }
-         
-    public Servidor(int porta) throws IOException{
+
+    public Servidor(int porta) throws IOException {
         this.porta = porta;
         this.clientes = new ArrayList<Socket>();
         this.F1 = new Fila();
@@ -57,40 +55,39 @@ public class Servidor {
         this.Banco = new BaseDados();
         this.Banco.RecuperardoLog("Log.txt");
     }
-    
-    public void executa() throws IOException{
-        
+
+    public void executa() throws IOException {
+
         ServerSocket servidor = new ServerSocket(this.porta);
-        
-        //Devinindo POOL de threads
+
+        // Devinindo POOL de threads
         ExecutorService thds = Executors.newFixedThreadPool(this.quantidade_threads);
-        
-        //Para copiar de F1 para F2 e para F3
-        CopiarLista copy = new CopiarLista(this.F1,this.F2,this.F3);
+
+        // Para copiar de F1 para F2 e para F3
+        CopiarLista copy = new CopiarLista(this.F1, this.F2, this.F3);
         new Thread(copy).start();
-        
-        //Criando Log
-        Log log = new Log(this.F2);  
+
+        // Criando Log
+        Log log = new Log(this.F2);
         new Thread(log).start();
-        
-        
-        //Thread para aplicar operacoes ao Banco de Dados
-        AplicarAoBanco bancoDados = new AplicarAoBanco(this.Banco,this.F3,this);
+
+        // Thread para aplicar operacoes ao Banco de Dados
+        AplicarAoBanco bancoDados = new AplicarAoBanco(this.Banco, this.F3, this);
         new Thread(bancoDados).start();
-     
-        while(true){
+
+        while (true) {
             Socket cliente = servidor.accept();
-            System.out.println("Nova conexão com o cliente " +cliente.getInetAddress().getHostAddress());
+            System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
             this.clientes.add(cliente);
-            ReceberMensagem msg = new ReceberMensagem(cliente,this,this.F1);
+            ReceberMensagem msg = new ReceberMensagem(cliente, this, this.F1);
+            // ReceberMensagemTeste msg = new ReceberMensagemTeste(cliente, this, this.F1);
             thds.execute(msg);
         }
     }
-    
-    public synchronized String MandarMensagem(String mensagem){
-        //Mandar mensagem para os clientes
+
+    public synchronized String MandarMensagem(String mensagem) {
+        // Mandar mensagem para os clientes
         return mensagem;
     }
-    
-    
+
 }
